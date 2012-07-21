@@ -25,7 +25,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
 
 //http.createServer(app).listen(app.get('port'), function(){
 //  console.log("Express server listening on port " + app.get('port'));
@@ -46,6 +45,8 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
   });
 });
+
+app.get('/', routes.index);
 
 app.listen(process.env.PORT || 3000);
 //console.log("Nodejs blackboard listening on port %d in %s mode", app.address().port, app.settings.env);

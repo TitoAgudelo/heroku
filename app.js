@@ -7,14 +7,15 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http');
 
-var app = module.exports = express.createServer();
+var app = express();
+var server = http.createServer(app);
 
 app.configure(function(){
   //app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  //app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
@@ -31,7 +32,7 @@ app.configure('development', function(){
 //});
 
 
-var io = require('socket.io').listen(app);
+var io = require('socket.io').listen(server);
 
 // assuming io is the Socket.IO server object
 io.configure(function () { 
@@ -48,6 +49,6 @@ io.sockets.on('connection', function (socket) {
 
 app.get('/', routes.index);
 
-app.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3000);
 //console.log("Nodejs blackboard listening on port %d in %s mode", app.address().port, app.settings.env);
 
